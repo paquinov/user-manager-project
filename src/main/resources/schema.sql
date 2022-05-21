@@ -6,7 +6,7 @@ create table PERSONS (
   ID varchar(36) not null,
   NAME varchar(100) not null,
   CREATED_DATE date not null,
-  LAST_MODIFIED_DATE date not null,
+  LAST_UPDATE_DATE date not null,
   PRIMARY KEY (ID)
 );
 
@@ -29,9 +29,9 @@ create table USERS (
   PASSWORD varchar(255) not null,
   TOKEN varchar(255) not null,
   IS_ACTIVE boolean not null,
-  LAST_LOGIN date not null,
+  LAST_LOGIN_DATE date not null,
   CREATED_DATE date not null,
-  LAST_MODIFIED_DATE date not null,
+  LAST_UPDATE_DATE date not null,
   PRIMARY KEY (ID),
   FOREIGN KEY (PERSON_ID) REFERENCES PERSONS (ID)
 );
