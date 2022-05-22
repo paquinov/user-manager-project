@@ -23,6 +23,7 @@ public class User {
     private String email;
     @NotEmpty(message = "El campo password es obligatorio")
     private String password;
+    private String encodedPassword;
     @Valid
     private Person person;
     private String token;

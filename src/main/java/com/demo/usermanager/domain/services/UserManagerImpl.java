@@ -10,6 +10,7 @@ import com.demo.usermanager.domain.ports.spi.UserPersistencePort;
 import com.demo.usermanager.domain.validators.RegisterUserInputValidator;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
@@ -23,6 +24,7 @@ public class UserManagerImpl implements UserManagerPort {
 
     private final UserPersistencePort userPersistencePort;
     private final RegisterUserInputValidator inputValidator;
+    private final PasswordEncoder passwordEncoder;
 
     @Override
     public void registerUser(User user) throws AlreadyRegisteredException, RegisterUserInputValidationsException {
@@ -62,7 +64,7 @@ public class UserManagerImpl implements UserManagerPort {
     private void updateUserInformation(User user, Date createdDate) {
         user.setId(UUID.randomUUID().toString());
         user.setActive(true);
-        user.setPassword("**********");// TODO: encrypt password
+        user.setEncodedPassword(passwordEncoder.encode(user.getPassword()));
         user.setToken("GENERIC-TOKEN"); // TODO: generate and set Token
         user.setLastLoginDate(createdDate);
         user.setCreatedDate(createdDate);

@@ -14,7 +14,8 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 								"com.demo.usermanager.domain.services",
 								"com.demo.usermanager.infrastructure.adapters",
 								"com.demo.usermanager.infrastructure.mappers",
-								"com.demo.usermanager.domain.validators"})
+								"com.demo.usermanager.domain.validators",
+								"com.demo.usermanager.launcher.config"})
 @EntityScan(basePackages = {"com.demo.usermanager.infrastructure.entity"})
 @EnableConfigurationProperties(RegisterUserInputValidationProperties.class)
 @EnableJpaRepositories(basePackages = {"com.demo.usermanager.infrastructure.repository"})

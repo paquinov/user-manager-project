@@ -37,7 +37,7 @@ public class UserPersistenceMapper {
         return UserEntity.builder()
                         .id(user.getId())
                         .email(user.getEmail())
-                        .password(user.getPassword())
+                        .password(user.getEncodedPassword())
                         .token(user.getToken())
                         .isActive(user.isActive())
                         .person(personEntity)
