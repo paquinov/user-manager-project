@@ -33,9 +33,9 @@ public class RegisterUserMapper {
     public RegisterUserResponse buildResponseFromUser(User user) {
         return RegisterUserResponse.builder()
                                     .id(user.getId())
-                                    .created(user.getCreatedDate())
-                                    .modified(user.getLastUpdateDate())
-                                    .lastLogin(user.getLastLoginDate())
+                                    .created(user.getCreatedDate().toString())
+                                    .modified(user.getLastUpdateDate().toString())
+                                    .lastLogin(user.getLastLoginDate().toString())
                                     .token(user.getToken())
                                     .isActive(user.isActive())
                                     .build();
