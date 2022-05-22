@@ -4,6 +4,7 @@ import com.demo.usermanager.application.dto.RegisterUserRequest;
 import com.demo.usermanager.application.dto.RegisterUserResponse;
 import com.demo.usermanager.application.mappers.RegisterUserMapper;
 import com.demo.usermanager.domain.data.User;
+import com.demo.usermanager.domain.exceptions.RegisterUserInputValidationsException;
 import com.demo.usermanager.domain.ports.api.UserManagerPort;
 import com.demo.usermanager.domain.exceptions.AlreadyRegisteredException;
 import lombok.RequiredArgsConstructor;
@@ -26,7 +27,7 @@ public class UserController {
 
     @PostMapping
     public ResponseEntity<RegisterUserResponse> registerUser(@RequestBody RegisterUserRequest registerUserRequest)
-                                                            throws AlreadyRegisteredException {
+                                                            throws AlreadyRegisteredException, RegisterUserInputValidationsException {
         User user = registerUserMapper.buildUserFromRequest(registerUserRequest);
         userManagerPort.registerUser(user);
         return ResponseEntity.status(HttpStatus.CREATED)
