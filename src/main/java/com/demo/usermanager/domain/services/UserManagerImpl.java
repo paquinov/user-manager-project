@@ -4,6 +4,7 @@ import com.demo.usermanager.domain.data.Person;
 import com.demo.usermanager.domain.data.Phone;
 import com.demo.usermanager.domain.data.User;
 import com.demo.usermanager.domain.exceptions.RegisterUserInputValidationsException;
+import com.demo.usermanager.domain.jwt.JwtUtils;
 import com.demo.usermanager.domain.ports.api.UserManagerPort;
 import com.demo.usermanager.domain.exceptions.AlreadyRegisteredException;
 import com.demo.usermanager.domain.ports.spi.UserPersistencePort;
@@ -25,6 +26,7 @@ public class UserManagerImpl implements UserManagerPort {
     private final UserPersistencePort userPersistencePort;
     private final RegisterUserInputValidator inputValidator;
     private final PasswordEncoder passwordEncoder;
+    private final JwtUtils jwtUtils;
 
     @Override
     public void registerUser(User user) throws AlreadyRegisteredException, RegisterUserInputValidationsException {
@@ -65,7 +67,7 @@ public class UserManagerImpl implements UserManagerPort {
         user.setId(UUID.randomUUID().toString());
         user.setActive(true);
         user.setEncodedPassword(passwordEncoder.encode(user.getPassword()));
-        user.setToken("GENERIC-TOKEN"); // TODO: generate and set Token
+        user.setToken(jwtUtils.generateToken(user.getEmail(), createdDate));
         user.setLastLoginDate(createdDate);
         user.setCreatedDate(createdDate);
         user.setLastUpdateDate(createdDate);

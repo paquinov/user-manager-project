@@ -3,6 +3,7 @@ package com.demo.usermanager.application.controller;
 import com.demo.usermanager.application.dto.ErrorResponse;
 import com.demo.usermanager.domain.exceptions.AlreadyRegisteredException;
 import com.demo.usermanager.domain.exceptions.RegisterUserInputValidationsException;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -11,6 +12,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 @RestControllerAdvice
+@Slf4j
 public class ResponseExceptionHandler {
 
     @ExceptionHandler(RegisterUserInputValidationsException.class)
@@ -31,6 +33,7 @@ public class ResponseExceptionHandler {
 
     @ExceptionHandler(RuntimeException.class)
     public ResponseEntity<ErrorResponse> unknownIssue(RuntimeException ex) {
+        log.error("Unknown Issue", ex);
         return ResponseEntity.internalServerError()
                             .body(ErrorResponse.builder()
                                                 .message("Ocurrio un error inesperado")
