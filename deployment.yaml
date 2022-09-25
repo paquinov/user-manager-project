@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: user-manager-project
+spec:
+  selector:
+    matchLabels:
+      # K8s object that tells to only target pods that match the specified labels
+      app: user-manager-project
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        # This adds labels for the deployment specification
+        app: user-manager-project
+    spec:
+      containers:
+        - name: user-manager-project
+          image: user-manager-ms:latest
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8100
