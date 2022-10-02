@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Service
+metadata:
+  # Name of the service you get when you execute : kubectl get services
+  name: user-manager-project-svc
+spec:
+  selector:
+    # Matching the corresponding pods
+    app: user-manager-project
+  ports:
+    - protocol: TCP
+      # The port where the pods are running
+      port: 8080
+      # The port where we want to expose our service in the service
+      targetPort: 8080
+  type: NodePort
