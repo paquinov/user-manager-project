@@ -19,4 +19,4 @@ spec:
           image: user-manager-ms:latest
           imagePullPolicy: IfNotPresent
           ports:
-            - containerPort: 8100
+            - containerPort: 8080
