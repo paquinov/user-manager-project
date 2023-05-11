@@ -1,10 +1,13 @@
 package com.demo.usermanager.application.controller;
 
+import com.demo.usermanager.application.dto.GetUserResponse;
 import com.demo.usermanager.application.dto.RegisterUserRequest;
 import com.demo.usermanager.application.dto.RegisterUserResponse;
+import com.demo.usermanager.application.mappers.GetUserMapper;
 import com.demo.usermanager.application.mappers.RegisterUserMapper;
 import com.demo.usermanager.domain.data.User;
 import com.demo.usermanager.domain.exceptions.RegisterUserInputValidationsException;
+import com.demo.usermanager.domain.exceptions.UserNotFoundException;
 import com.demo.usermanager.domain.ports.api.UserManagerPort;
 import com.demo.usermanager.domain.exceptions.AlreadyRegisteredException;
 import io.swagger.annotations.*;
@@ -23,6 +26,7 @@ public class UserController {
 
     private final UserManagerPort userManagerPort;
     private final RegisterUserMapper registerUserMapper;
+    private final GetUserMapper getUserMapper;
 
     @PostMapping
     @ApiOperation(value = "Creates a new user")
@@ -38,6 +42,13 @@ public class UserController {
         userManagerPort.registerUser(user);
         return ResponseEntity.status(HttpStatus.CREATED)
                             .body(registerUserMapper.buildResponseFromUser(user));
+    }
+
+    // TODO : swagger doc is pending
+    // TODO : testing with an existing user is pending
+    @GetMapping("/{id}")
+    public ResponseEntity<GetUserResponse> getUser(@PathVariable("id") String userId) throws UserNotFoundException {
+        return ResponseEntity.ok(getUserMapper.buildUserResponseFromUser(userManagerPort.getUser(userId)));
     }
 
 }

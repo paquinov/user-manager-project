@@ -9,6 +9,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 
 @Service
 @Slf4j
@@ -27,6 +29,12 @@ public class UserPersistenceAdapter implements UserPersistencePort {
     @Override
     public boolean emailIsAlreadyRegistered(String email) {
         return userRepository.existsByEmail(email);
+    }
+
+    @Override
+    public Optional<User> findUserById(String userId) {
+        return userRepository.findById(userId)
+                            .map(userPersistenceMapper::buildUser);
     }
 
 }

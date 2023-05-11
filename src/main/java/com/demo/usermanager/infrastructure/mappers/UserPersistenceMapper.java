@@ -1,6 +1,7 @@
 package com.demo.usermanager.infrastructure.mappers;
 
 import com.demo.usermanager.domain.data.Person;
+import com.demo.usermanager.domain.data.Phone;
 import com.demo.usermanager.domain.data.User;
 import com.demo.usermanager.infrastructure.entity.PersonEntity;
 import com.demo.usermanager.infrastructure.entity.PhoneEntity;
@@ -45,6 +46,35 @@ public class UserPersistenceMapper {
                         .createdDate(user.getCreatedDate())
                         .lastUpdateDate(user.getLastUpdateDate())
                         .build();
+    }
+
+    public User buildUser(UserEntity userEntity) {
+        PersonEntity personEntity = userEntity.getPerson();
+        return User.builder()
+                    .id(userEntity.getId())
+                    .email(userEntity.getEmail())
+                    .person(Person.builder()
+                                .id(personEntity.getId())
+                                .name(personEntity.getName())
+                                .createdDate(personEntity.getCreatedDate())
+                                .lastUpdateDate(personEntity.getLastUpdateDate())
+                                .phoneList(personEntity.getPhoneEntitySet()
+                                                        .stream()
+                                                        .map(phoneEntity -> Phone.builder()
+                                                                                .id(phoneEntity.getId())
+                                                                                .number(phoneEntity.getNumber())
+                                                                                .cityCode(phoneEntity.getCityCode())
+                                                                                .countryCode(phoneEntity.getCountryCode())
+                                                                                .isActive(phoneEntity.isActive())
+                                                                                .createdDate(phoneEntity.getCreatedDate())
+                                                                                .build())
+                                                        .collect(Collectors.toList()))
+                                .build())
+                    .isActive(userEntity.isActive())
+                    .lastLoginDate(userEntity.getLastLoginDate())
+                    .lastUpdateDate(userEntity.getLastUpdateDate())
+                    .createdDate(userEntity.getCreatedDate())
+                    .build();
     }
 
 }

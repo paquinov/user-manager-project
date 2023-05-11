@@ -4,6 +4,7 @@ import com.demo.usermanager.domain.data.Person;
 import com.demo.usermanager.domain.data.Phone;
 import com.demo.usermanager.domain.data.User;
 import com.demo.usermanager.domain.exceptions.RegisterUserInputValidationsException;
+import com.demo.usermanager.domain.exceptions.UserNotFoundException;
 import com.demo.usermanager.domain.jwt.JwtUtils;
 import com.demo.usermanager.domain.ports.api.UserManagerPort;
 import com.demo.usermanager.domain.exceptions.AlreadyRegisteredException;
@@ -33,6 +34,15 @@ public class UserManagerImpl implements UserManagerPort {
         executeBusinessValidations(user);
         updateInformationByBusinessLogic(user);
         userPersistencePort.persistUser(user);
+    }
+
+    @Override
+    public User getUser(String userId) throws UserNotFoundException {
+        return userPersistencePort.findUserById(userId)
+                                .orElseThrow(() -> {
+                                    log.warn("Find user by id - User was not found using id {}", userId);
+                                    return new UserNotFoundException();
+                                });
     }
 
     private void executeBusinessValidations(User user) throws AlreadyRegisteredException, RegisterUserInputValidationsException {
